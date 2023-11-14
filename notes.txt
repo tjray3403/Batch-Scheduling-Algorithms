@@ -1,0 +1,196 @@
+/* cout<<"\n\nFIFO Algorithm Results" << endl;
+  double fifo_att = 0;//fifo average turnaround time
+  int fifo_time = 0;//time
+  for(process p: processes) {
+
+    while(fifo_time<p.arrival_time) {
+      fifo_time++;
+    }
+
+      cout<<"Process: "<<p.process_id<<endl;
+      cout<<"Arrival Time: "<<p.arrival_time<<endl;   
+      cout <<"Total CPU Time: "<< p.totalCPU_time<<endl;
+    int temp_time = p.remainingCPU_time;
+
+    while(temp_time>0) {
+      fifo_time++;
+      temp_time--;
+    }
+
+
+
+
+
+    p.remainingCPU_time = temp_time;
+    p.turnaround_time = fifo_time - p.arrival_time;
+     // fifo_att = fifo_att + p.totalCPU_time-p.arrival_time;
+    cout <<"Turnaround Time: "<< p.turnaround_time<<endl;
+    fifo_att = fifo_att + p.turnaround_time;
+      cout<<endl;
+  }
+  cout<<"FIFO: Average Turnaround Time : "<<fifo_att/processes.size()<<endl;
+  cout<<"Time: "<<fifo_time<<endl;
+  cout<<endl;
+
+
+//We can make a new vector called active and push in a process based on arrivaltime. Then each time we push we can sjf sort it?
+  //vector<process> processes;
+  //SJF
+/*process hi; //I used this to test sjf runtime
+  hi.process_id = 21;
+  hi.arrival_time = 700;
+  hi.totalCPU_time = 4;
+  hi.remainingCPU_time = 4;
+  sjf_processes.push_back(hi);*/
+
+  /*queue<process> sjf_queue;
+  for(process p: sjf_processes) {
+    sjf_queue.push(p);
+    //cout<<"Process: "<<p.process_id<<endl;
+   // cout<<"Arrival Time: "<<p.arrival_time<<endl;   
+    //cout <<"Total CPU Time: "<< p.totalCPU_time<<endl;
+  }
+  sjf<process> shortestJobFirst;
+  shortestJobFirst.schedule(processes);
+  double sjf_att = 0;//sjf average turnaround time
+  int sjf_time = 0;//time
+  vector<process> active;
+  vector<process> finish;
+  cout<<"\n\nSJF Algorithm Results:" << endl;
+
+  while (true) {
+    if(sjf_queue.empty() && active.empty())break;
+    if(sjf_queue.front().arrival_time == sjf_time) {
+      active.push_back(sjf_queue.front());
+      sjf_queue.pop();
+
+    }
+    shortestJobFirst.schedule(active);
+    if(!active.empty())active.back().remainingCPU_time--;
+    sjf_time++;
+    if(!active.empty() && active.back().remainingCPU_time==0) {
+      active.back().turnaround_time = sjf_time - active.back().arrival_time;
+      finish.push_back(active.back());
+      active.pop_back();
+    }
+
+    //cout << sjf_time << endl;
+  }
+    for(process p: finish) {
+      cout<<"Process: "<<p.process_id<<endl;
+      cout<<"Arrival Time: "<<p.arrival_time<<endl;   
+      cout <<"Total CPU Time: "<< p.totalCPU_time<<endl;
+      cout <<"Turnaroundtime: "<< p.turnaround_time<<endl;
+      sjf_att+= p.turnaround_time;
+      cout<<endl;
+    }
+    sjf_att = sjf_att/finish.size();
+    cout<<"SJF: Average Turnaround Time : "<<sjf_att<<endl;
+*/
+
+  /*
+  queue<process> srt_queue;
+    for(process p: processes) {
+      srt_queue.push(p);
+      //cout<<"Process: "<<p.process_id<<endl;
+     // cout<<"Arrival Time: "<<p.arrival_time<<endl;   
+      //cout <<"Total CPU Time: "<< p.totalCPU_time<<endl;
+    }
+    srt<process> shortestRemainingTime;
+   // shortestRemainingTime.schedule(processes);
+    double srt_att = 0;//sjf average turnaround time
+    int srt_time = 0;//time
+    vector<process> srt_active;
+    vector<process> srt_finish;
+    cout<<"\n\nSRT Algorithm Results:" << endl;
+
+    while (true) {
+      if(srt_queue.empty() && srt_active.empty())break;
+      if(srt_queue.front().arrival_time == srt_time) {
+        srt_active.push_back(srt_queue.front());
+        srt_queue.pop();
+
+      }
+        shortestRemainingTime.schedule(srt_active);
+      if(!srt_active.empty())srt_active.back().remainingCPU_time--;
+      srt_time++;
+      if(!srt_active.empty() && srt_active.back().remainingCPU_time==0) {
+          srt_active.back().turnaround_time = srt_time - srt_active.back().arrival_time;
+          srt_finish.push_back(srt_active.back());
+          srt_active.pop_back();
+      }
+
+      //cout << sjf_time << endl;
+    }
+      for(process p: srt_finish) {
+        cout<<"Process: "<<p.process_id<<endl;
+        cout<<"Arrival Time: "<<p.arrival_time<<endl;   
+        cout <<"Total CPU Time: "<< p.totalCPU_time<<endl;
+        cout <<"Turnaroundtime: "<< p.turnaround_time<<endl;
+        srt_att+= p.turnaround_time;
+        cout<<endl;
+      }
+        srt_att = srt_att/srt_finish.size();
+      cout<<"SJF: Average Turnaround Time : "<<srt_att<<endl;
+*/
+
+
+
+while (true) {
+  //if(sjf_queue.empty() && active.empty())break;
+  if (sjf_queue.empty() && active.empty()) {
+      break;
+  }
+
+  if(sjf_queue.front().arrival_time > sjf_time) {
+    sjf_time++;
+    cout<<sjf_time<<endl;
+    continue;
+   // break;
+  }
+
+
+  while(sjf_queue.front().arrival_time <= sjf_time) {
+    active.push_back(sjf_queue.front());
+    sjf_queue.pop();
+  }
+
+    shortestJobFirst.schedule(active);
+
+  for(process p: active) {
+    temp.push_back(p);
+  }
+  active.clear();
+
+  while(temp.front().remainingCPU_time>0) {
+  temp.front().remainingCPU_time--;
+  sjf_time++;
+  if(!temp.empty() && temp.front().remainingCPU_time==0) {
+      temp.front().turnaround_time = sjf_time - temp.front().arrival_time;
+    finish.push_back(temp.front());
+    cout<<"pushed" << temp.front().process_id << endl;
+    temp.pop_front();
+  }
+
+  }
+
+  while(!temp.empty()) {
+    active.push_back(temp.front());
+    temp.pop_front();
+  }
+
+
+  //cout << sjf_time << endl;
+}
+
+cout<<"hi" << endl;
+  for(process p: finish) {
+    cout<<"Process: "<<p.process_id<<endl;
+    cout<<"Arrival Time: "<<p.arrival_time<<endl;   
+    cout <<"Total CPU Time: "<< p.totalCPU_time<<endl;
+    cout <<"Turnaroundtime: "<< p.turnaround_time<<endl;
+    sjf_att+= p.turnaround_time;
+    cout<<endl;
+  }
+  sjf_att = sjf_att/finish.size();
+  cout<<"SJF: Average Turnaround Time : "<<sjf_att<<endl;
